@@ -1,0 +1,127 @@
+
+//this here gives the variable the
+//login.php file
+var server = "login.php";
+//these are all the functions that make the id buttons
+//in the script work, without all these function
+//that do certain things you would not have anything functional
+//and a ton of errors
+function show(section) {
+    $("section").slideUp(500);
+    $(section).slideDown(500);
+}
+//this is the register function, that alerts
+//the user if they dont type into the username
+//(considering you have already registered)
+function register(){
+    if ($('#regUser').val()== "") {
+       alert("Enter your username, please");
+       return;
+    }
+    //just makes sure the user puts in a password
+    if ($('#regPass').val()== " "){
+        //also alerts if they didnt enter anything
+        alert("Put in your password, please!");
+        return;
+    }
+    //check to see if the passwords match
+    if ($('#regPass').val() == $('#regConf').val()){
+         var dataToSend = {
+         action: "register",
+         username: $('#regUser').val(),
+         password: $('#regPass').val()
+         }
+         //i think this grabs your login.php file, sends your
+         //data to the function datatosend(), then takes the
+         //response of the password and makes sure it matches
+         $.post("login.php",dataToSend,registerResponse);
+    }else{
+        alert("Please put your password in correctly.");
+    }
+}
+//this function registers the reponse saves it as response
+//then alerts the response and checkLogin, register is definitely
+//the longest function, and the bottom response goes with
+//the register function
+function registerResponse(response){
+    alert(response);
+    checkLogin();
+}
+//the start of the login function that makes
+//the login button actually work
+function login(){
+    if ($('#username').val()=="") {
+       alert("You need a username, silly!");
+       return;
+    }
+    if ($('#password').val()=='') {
+        alert("Please enter your password.");
+        return;
+    }
+    var dataTosend = {
+        action: "login",
+        username: $('#username').val(),
+        password: $('#password').val()
+    }
+    $.post("login.php",dataTosend,loginResponse);
+}
+
+function loginResponse(response) {
+    if (response=='success') {
+        show('#message');
+        $('#username').val('');
+        $('#password').val('');  
+    }
+}
+//when the page is loaded it calls checkLogin
+$(document).ready(checkLogin);
+
+function checkLogin() {
+    var dataToSend = {
+        action: "checkLogin"    
+    }
+    $.post("login.php",dataToSend,loginResponse);
+}
+//this is the log our function so it would work
+function logout(){
+    var dataToSend = {
+        action: "logout"
+    }
+    $.post("login.php", dataToSend, logoutResponse);
+}
+//stores the response Recieved
+function logoutResponse(response){
+    show('#login');
+}
+//this is the SEND function and a tricky one at that
+ function send(){
+    var dataToSend = {
+        action: "send",
+        message: $('#messageBox').val()
+    }
+    //this is a box where text gets typed
+    $('#messageBox').val('');
+    $.post("login.php",dataToSend,responseRecieved);
+}
+//the message area is the entire chat  screen 
+function responseRecieved(res){
+   $('#messageArea').html(res);
+}
+//gets the messagwe and keeps it stores the data
+function getMessage() {
+ var dataToSend = {
+     action: "show"
+ }
+    $.post("login.php",dataToSend,responseRecieved);
+ 
+}
+//sets intervals for get meaages 10000 of a second? right?
+setInterval(getMessage,1000);
+//gets everything ready(the functions)
+$(document).ready(function(){
+   $('#message').keyup(function(ev){
+       if (ev.keyCode==13){
+           send();
+        }
+     })
+});

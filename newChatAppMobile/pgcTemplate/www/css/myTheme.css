@@ -1,0 +1,55 @@
+/*This Makes All the special Boxes and
+ colours and center the test, it sets
+ all your background special effects! 
+ /*this gives different styles to
+ different tags in your code, thank god!*/
+ 
+ body{
+     text-align: center;
+ }
+/* this puts specific attributes
+ for the section tag*/
+ section{
+     display: inline-block;
+     background: #01A9DB;
+     border: 2px solid #0B4C5F;
+     border-radius: 20px;
+     padding: 2em;
+     min-width: 200px;
+     text-align: center;
+     margin: auto;
+ }
+ /*puts a magin for the input tag*/
+ input{
+     margin: 5px;
+ }
+ .hidden{
+     display: none;
+ }
+ /*makes an area section with attributes
+ this is where text is shown*/
+ #messageArea{
+     text-align: left;
+     margin: auto;
+     background-color: pink;
+     
+ }
+ /*these are the requirements for the scroll
+ bar*/
+ div#scrollArea{
+     width: 450px;
+     height: 300px;
+     overflow-x: hi;
+     overflow-y: scroll;
+     background-color: pink;
+     border: solid;
+     text-align: center;
+     margin: auto;
+ }
+ /*this tag allows the user to
+ input text they want in the messageArea*/
+ #messageBox{
+     width:300px;
+     display: inline-block;
+     border: solid;
+ }
