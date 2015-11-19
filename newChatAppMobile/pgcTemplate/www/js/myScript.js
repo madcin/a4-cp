@@ -36,7 +36,7 @@ function register(){
 //the longest function, and the bottom response goes with
 //the register function
 function registerResponse(response){
-     if (response == 'Your Registered!') {
+     if (response == 'success') {
        $.mobile.navigate("#login"); 
      }else{
         alert("registration failed");
@@ -65,7 +65,7 @@ function login(){
 }
 
 function loginResponse(response) {
-    if (response=='Your logged in!') {
+    if (response=='success') {
         $.mobile.navigate("#message")
         $('#username').val('');
         $('#password').val('');  
@@ -103,7 +103,7 @@ function logoutResponse(response){
 }
 //the message area is the entire chat  screen 
 function responseRecieved(res){
-   $('#messageArea').html(res);nd
+   $('#messageArea').html(res);
 }
 //gets the messagwe and keeps it stores the data
 function getMessage() {
