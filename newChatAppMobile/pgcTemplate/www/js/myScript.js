@@ -1,25 +1,17 @@
 
 //this here gives the variable the
 //login.php file
-var server = "login.php";
-//these are all the functions that make the id buttons
-//in the script work, without all these function
-//that do certain things you would not have anything functional
-//and a ton of errors
-function show(section) {
-    $("section").slideUp(500);
-    $(section).slideDown(500);
-}
+var server = "http://192.168.0.13/a4-cp/newChatAppMobile/login.php";
 //this is the register function, that alerts
 //the user if they dont type into the username
 //(considering you have already registered)
 function register(){
-    if ($('#regUser').val()== "") {
+    if ($('#regUser').val() == " ") {
        alert("Enter your username, please");
        return;
     }
     //just makes sure the user puts in a password
-    if ($('#regPass').val()== " "){
+    if ($('#regPass').val() == " "){
         //also alerts if they didnt enter anything
         alert("Put in your password, please!");
         return;
@@ -34,7 +26,7 @@ function register(){
          //i think this grabs your login.php file, sends your
          //data to the function datatosend(), then takes the
          //response of the password and makes sure it matches
-         $.post("login.php",dataToSend,registerResponse);
+         $.post(server,dataToSend,registerResponse);
     }else{
         alert("Please put your password in correctly.");
     }
@@ -44,8 +36,14 @@ function register(){
 //the longest function, and the bottom response goes with
 //the register function
 function registerResponse(response){
-    alert(response);
-    checkLogin();
+     if (response == 'Your Registered!') {
+       $.mobile.navigate("#login"); 
+     }else{
+        alert("registration failed");
+     }
+     
+     alert(response);
+     checkLogin();
 }
 //the start of the login function that makes
 //the login button actually work
@@ -63,12 +61,12 @@ function login(){
         username: $('#username').val(),
         password: $('#password').val()
     }
-    $.post("login.php",dataTosend,loginResponse);
+    $.post(server,dataTosend,loginResponse);
 }
 
 function loginResponse(response) {
-    if (response=='success') {
-        show('#message');
+    if (response=='Your logged in!') {
+        $.mobile.navigate("#message")
         $('#username').val('');
         $('#password').val('');  
     }
@@ -80,18 +78,18 @@ function checkLogin() {
     var dataToSend = {
         action: "checkLogin"    
     }
-    $.post("login.php",dataToSend,loginResponse);
+    $.post(server,dataToSend,loginResponse);
 }
 //this is the log our function so it would work
 function logout(){
     var dataToSend = {
         action: "logout"
     }
-    $.post("login.php", dataToSend, logoutResponse);
+    $.post(server, dataToSend, logoutResponse);
 }
 //stores the response Recieved
 function logoutResponse(response){
-    show('#login');
+    $.mobile.navigate("#login");
 }
 //this is the SEND function and a tricky one at that
  function send(){
@@ -101,18 +99,18 @@ function logoutResponse(response){
     }
     //this is a box where text gets typed
     $('#messageBox').val('');
-    $.post("login.php",dataToSend,responseRecieved);
+    $.post(server,dataToSend,responseRecieved);
 }
 //the message area is the entire chat  screen 
 function responseRecieved(res){
-   $('#messageArea').html(res);
+   $('#messageArea').html(res);nd
 }
 //gets the messagwe and keeps it stores the data
 function getMessage() {
  var dataToSend = {
      action: "show"
  }
-    $.post("login.php",dataToSend,responseRecieved);
+    $.post(server,dataToSend,responseRecieved);
  
 }
 //sets intervals for get meaages 10000 of a second? right?
@@ -125,3 +123,9 @@ $(document).ready(function(){
         }
      })
 });
+//logs user out when window is closed
+window.onbeforehand = function (e) {
+    if ((window.event.clientY < 0)) {
+        logout();
+    }
+};

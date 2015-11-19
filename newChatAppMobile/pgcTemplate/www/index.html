@@ -2,225 +2,50 @@
 
 <html lang="en">
 <head>
-    <title>Login Page</title>
-    <script src="jquery.min.js"></script>
-    <style>
-        /*This Makes All the special Boxes and
-        colours and center the test, it sets
-        all your background special effects! 
-        /*this gives different styles to
-        different tags in your code, thank god!*/
-        
-        body{
-            text-align: center;
-        }
-       /* this puts specific attributes
-        for the section tag*/
-        section{
-            display: inline-block;
-            background: #01A9DB;
-            border: 2px solid #0B4C5F;
-            border-radius: 20px;
-            padding: 2em;
-            min-width: 200px;
-            text-align: center;
-            margin: auto;
-        }
-        /*puts a magin for the input tag*/
-        input{
-            margin: 5px;
-        }
-        .hidden{
-            display: none;
-        }
-        /*makes an area section with attributes
-        this is where text is shown*/
-        #messageArea{
-            text-align: left;
-            margin: auto;
-            background-color: pink;
-            
-        }
-        /*these are the requirements for the scroll
-        bar*/
-        div#scrollArea{
-            width: 450px;
-            height: 300px;
-            overflow-x: hi;
-            overflow-y: scroll;
-            background-color: pink;
-            border: solid;
-            text-align: center;
-            margin: auto;
-        }
-        /*this tag allows the user to
-        input text they want in the messageArea*/
-        #messageBox{
-            width:300px;
-            display: inline-block;
-            border: solid;
-        }
-    </style>
-        <script>
-        //this here gives the variable the
-        //login.php file
-        var server = "login.php";
-        //these are all the functions that make the id buttons
-        //in the script work, without all these function
-        //that do certain things you would not have anything functional
-        //and a ton of errors
-        function show(section) {
-            $("section").slideUp(500);
-            $(section).slideDown(500);
-        }
-        //this is the register function, that alerts
-        //the user if they dont type into the username
-        //(considering you have already registered)
-        function register(){
-            if ($('#regUser').val()== "") {
-               alert("Enter your username, please");
-               return;
-            }
-            //just makes sure the user puts in a password
-            if ($('#regPass').val()== " "){
-                //also alerts if they didnt enter anything
-                alert("Put in your password, please!");
-                return;
-            }
-            //check to see if the passwords match
-            if ($('#regPass').val() == $('#regConf').val()){
-                 var dataToSend = {
-                 action: "register",
-                 username: $('#regUser').val(),
-                 password: $('#regPass').val()
-                 }
-                 //i think this grabs your login.php file, sends your
-                 //data to the function datatosend(), then takes the
-                 //response of the password and makes sure it matches
-                 $.post("login.php",dataToSend,registerResponse);
-            }else{
-                alert("Please put your password in correctly.");
-            }
-        }
-        //this function registers the reponse saves it as response
-        //then alerts the response and checkLogin, register is definitely
-        //the longest function, and the bottom response goes with
-        //the register function
-        function registerResponse(response){
-            alert(response);
-            checkLogin();
-        }
-        //the start of the login function that makes
-        //the login button actually work
-        function login(){
-            if ($('#username').val()=="") {
-               alert("You need a username, silly!");
-               return;
-            }
-            if ($('#password').val()=='') {
-                alert("Please enter your password.");
-                return;
-            }
-            var dataTosend = {
-                action: "login",
-                username: $('#username').val(),
-                password: $('#password').val()
-            }
-            $.post("login.php",dataTosend,loginResponse);
-        }
-        
-        function loginResponse(response) {
-            if (response=='success') {
-                show('#message');
-                $('#username').val('');
-                $('#password').val('');  
-            }
-        }
-        //when the page is loaded it calls checkLogin
-        $(document).ready(checkLogin);
-        
-        function checkLogin() {
-            var dataToSend = {
-                action: "checkLogin"    
-            }
-            $.post("login.php",dataToSend,loginResponse);
-        }
-        //this is the log our function so it would work
-        function logout(){
-            var dataToSend = {
-                action: "logout"
-            }
-            $.post("login.php", dataToSend, logoutResponse);
-        }
-        //stores the response Recieved
-        function logoutResponse(response){
-            show('#login');
-        }
-        //this is the SEND function and a tricky one at that
-         function send(){
-            var dataToSend = {
-                action: "send",
-                message: $('#messageBox').val()
-            }
-            //this is a box where text gets typed
-            $('#messageBox').val('');
-            $.post("login.php",dataToSend,responseRecieved);
-        }
-        //the message area is the entire chat  screen 
-        function responseRecieved(res){
-           $('#messageArea').html(res);
-        }
-        //gets the messagwe and keeps it stores the data
-       function getMessage() {
-         var dataToSend = {
-             action: "show"
-         }
-            $.post("login.php",dataToSend,responseRecieved);
-         
-        }
-        //sets intervals for get meaages 10000 of a second? right?
-        setInterval(getMessage,1000);
-        //gets everything ready(the functions)
-       $(document).ready(function(){
-           $('#message').keyup(function(ev){
-               if (ev.keyCode==13){
-                   send();
-                }
-             })
-        });
-</script>
+    <title>ChatApp For Mobile</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/myScript.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
+    <link rel="stylesheet" href= "css/myTheme.css">
+    
+
 </head>
 <body>
-    <form action="login.php" method="POST">
-    </form>
     <!--this sets up the a box that holds certain attributes without
     these there would be nothing-->
-    <section id="register" class="hidden">
+    
+    <div data-role="page" id="login">
+        <div data-role="content">
+            <input id="username" placeholder="Enter Username here.">
+            <input id="password" placeholder="Enter Password here." type="password"><br>
+            <!--makes a button that has the function login()-->
+            <button onclick='login()'>Login</button><br>
+            <br>
+            
+            <div>
+                Require an account?
+                <!--this just allows the user to set up an acoount
+                if they dont have one already-->
+                <a href="#register">Register</a>
+            </div>
+        </div>
+   </div>
+    <div data-role="page" id="register">
+        <div data-role="content">
         <input id="regUser" placeholder="Username">
         <input id="regPass" placeholder="Password" type="password">
         <input id="regConf" placeholder="Please confirm password" type="password"><br>
        <!-- makes a button that has the function register-->
         <button onclick="register()">Register</button>
-     </section>
-     
-    <section id="login">
-        <input id="username" placeholder="Enter Username here.">
-        <input id="password" placeholder="Enter Password here." type="password"><br>
-        <!--makes a button that has the function login()-->
-        <button onclick='login()'>Login</button><br>
-        <br>
-        
-        <div>
-            Require an account?
-            <!--this just allows the user to set up an acoount
-            if they dont have one already-->
-            <a href="#" onclick="show('#register')">Register</a>
         </div>
-   </section>
-       <br>
+     </div>
        <!--this gives you the message box area, a scroll bar
        and a place to type you message and a button to send your message -->
-    <section id="message" class="hidden">
+    <div data-role="page" id="message">
+        <div data-role="content">
         <div id="scrollArea">
             <ul id="messageArea"></ul>
         </div>
@@ -230,7 +55,16 @@
         <button onclick="send()">Send Your Message</button>
         <!--this is just a button that has the function logout()-->
         <button onclick="logout()">Log Out</button>
-    </section>    
+        </div>
+    </div>
+    <!--<div data-role="panel" id="userlist">
+        <div data-role="header">
+            <h1>Users</h1>
+        </div>
+        <div data-role="content">
+            <ul data-role="listview" id="userlist"></ul>
+        </div>
+    </div>-->
       
 </body>
 </html>

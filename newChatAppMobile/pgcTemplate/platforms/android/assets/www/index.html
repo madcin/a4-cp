@@ -1,0 +1,64 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <title>ChatApp For Mobile</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/myScript.js"></script>
+    <script src=css/myTheme.css></script>
+    
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
+
+    
+
+</head>
+<body>
+    <!--this sets up the a box that holds certain attributes without
+    these there would be nothing-->
+    
+    <div data-role="page" id="login">
+        <div data-role="content">
+            <input id="username" placeholder="Enter Username here.">
+            <input id="password" placeholder="Enter Password here." type="password"><br>
+            <!--makes a button that has the function login()-->
+            <button onclick='login()'>Login</button><br>
+            <br>
+            
+            <div>
+                Require an account?
+                <!--this just allows the user to set up an acoount
+                if they dont have one already-->
+                <a href="#register">Register</a>
+            </div>
+        </div>
+   </div>
+    <div data-role="page" id="register">
+        <div data-role="content">
+        <input id="regUser" placeholder="Username">
+        <input id="regPass" placeholder="Password" type="password">
+        <input id="regConf" placeholder="Please confirm password" type="password"><br>
+       <!-- makes a button that has the function register-->
+        <button onclick="register()">Register</button>
+        </div>
+     </div>
+       <!--this gives you the message box area, a scroll bar
+       and a place to type you message and a button to send your message -->
+    <div data-role="page" id="message">
+        <div data-role="content">
+        <div id="scrollArea">
+            <ul id="messageArea"></ul>
+        </div>
+        <!--this here is just the message area where you type what you want.-->
+        <input id="messageBox" type="text" name="message" placeholder="Send Message">
+        <!--just a send button so yopu can send your text-->
+        <button onclick="send()">Send Your Message</button>
+        <!--this is just a button that has the function logout()-->
+        <button onclick="logout()">Log Out</button>
+        </div>
+    </div>    
+      
+</body>
+</html>
